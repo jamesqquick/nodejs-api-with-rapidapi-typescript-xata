@@ -11,7 +11,7 @@ const xata = getXataClient();
 
 type MyResponse<T> = { err: string } | { data: T };
 
-app.get('/jobs', async (_: Request, res: Response<MyResponse<Job[]>>) => {
+app.get('/api/jobs', async (_: Request, res: Response<MyResponse<Job[]>>) => {
   try {
     const jobs = await xata.db.job.getAll();
     return res.status(200).json({ data: jobs });
@@ -22,7 +22,7 @@ app.get('/jobs', async (_: Request, res: Response<MyResponse<Job[]>>) => {
 });
 
 app.post(
-  '/jobs',
+  '/api/jobs',
   async (req: Request<{}, {}, Job>, res: Response<MyResponse<Job>>) => {
     const job = req.body;
     try {
@@ -36,7 +36,7 @@ app.post(
 );
 
 app.put(
-  '/jobs/:id',
+  '/api/jobs/:id',
   async (
     req: Request<{ id: string }, {}, Job>,
     res: Response<MyResponse<Job>>
@@ -59,7 +59,7 @@ app.put(
 );
 
 app.delete(
-  '/jobs/:id',
+  '/api/jobs/:id',
   async (
     req: Request<{ id: string }, {}, {}>,
     res: Response<MyResponse<Job>>
