@@ -1,85 +1,40 @@
-import express, { Express, Request, Response, urlencoded } from 'express';
+import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import { getXataClient, Job } from './xata';
 
 dotenv.config();
 
 const app: Express = express();
-app.use(express.json());
 const port = process.env.PORT || 3000;
+
+app.use(express.json());
+
 const xata = getXataClient();
 
-type MyResponse<T> = { err: string } | { data: T };
-
-app.get('/api/jobs', async (_: Request, res: Response<MyResponse<Job[]>>) => {
-  try {
-    const jobs = await xata.db.job.getAll();
-    return res.status(200).json({ data: jobs });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ err: 'Something went wrong' });
-  }
+app.get('/api/jobs', async (req: Request, res: Response) => {
+  const jobs = await xata.db.job.getAll();
+  res.json(jobs);
 });
 
-app.post(
-  '/api/jobs',
-  async (req: Request<{}, {}, Job>, res: Response<MyResponse<Job>>) => {
-    const job = req.body;
-    try {
-      const createdJob = await xata.db.job.create(job);
-      return res.status(201).json({ data: createdJob });
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ err: 'Something bad happened' });
-    }
-  }
-);
+app.post('/api/jobs', async (req: Request, res: Response) => {
+  const job = req.body;
+  const createdJob = await xata.db.job.create(job);
+  res.json(createdJob);
+});
 
-app.put(
-  '/api/jobs/:id',
-  async (
-    req: Request<{ id: string }, {}, Job>,
-    res: Response<MyResponse<Job>>
-  ) => {
-    const job = req.body;
-    const id = req.params.id;
-    try {
-      const updatedJob = (await xata.db.job.update(id, job)) as Job;
+app.put('/api/jobs/:id', async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const job = req.body;
+  const updatedJob = await xata.db.job.update(id, job);
+  res.json(updatedJob);
+});
 
-      if (!updatedJob) {
-        return res.status(404).json({ err: 'Job not found' });
-      }
-
-      return res.status(200).json({ data: updatedJob });
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ err: 'Something bad happened' });
-    }
-  }
-);
-
-app.delete(
-  '/api/jobs/:id',
-  async (
-    req: Request<{ id: string }, {}, {}>,
-    res: Response<MyResponse<Job>>
-  ) => {
-    const id = req.params.id;
-    try {
-      const deletedRecord = (await xata.db.job.delete(id)) as Job;
-
-      if (!deletedRecord) {
-        return res.status(404).json({ err: 'Job not found' });
-      }
-
-      return res.status(200).json({ data: deletedRecord });
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ err: 'Something bad happened' });
-    }
-  }
-);
+app.delete('/api/jobs/:id', async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const deletedRecord = await xata.db.job.delete(id);
+  res.json(deletedRecord);
+});
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Port: ${port}`);
+  console.log(`Server running at port ${port}`);
 });
