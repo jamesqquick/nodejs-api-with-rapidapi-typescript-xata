@@ -12,7 +12,7 @@ This is the source code for a [multipart YouTube series](https://youtube.com/pla
 
 ## How To Use
 
-There is a branch for each corresponding YouTube video. The finished code for Part 1 is in the `part1...` branch, etc.
+There is a branch for each corresponding YouTube video. The finished code for Part 1 is in the `part1...` branch, Part 2 is in the `part2...` branch, etc.
 
 ## Questions?
 
