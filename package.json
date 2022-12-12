@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "nodemon",
-    "build": "npm install && rimraf ./build && tsc",
-    "start": "npm run build && node build/index.js "
+    "build": "rimraf ./build && tsc",
+    "start": "npm install &&  npm run build && node build/index.js "
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,7 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@xata.io/client": "^0.20.1",
+    "@xata.io/client": "^0.21.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "node-fetch": "^3.2.10"
