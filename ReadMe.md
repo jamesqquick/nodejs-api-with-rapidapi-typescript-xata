@@ -10,6 +10,8 @@ This is the source code for a [multipart YouTube series](https://youtube.com/pla
 
 [![Part 2 Cover](./images/part2.jpg)](https://youtu.be/pNK09uh_tHs)
 
+## [Part 3 - Deploying to Render]()
+
 ## How To Use
 
 There is a branch for each corresponding YouTube video. The finished code for Part 1 is in the `part1...` branch, Part 2 is in the `part2...` branch, etc.
